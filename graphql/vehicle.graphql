@@ -1,0 +1,52 @@
+extend type Query {
+    vehicles: [Vehicle!]! @paginate(defaultCount: 10)
+    vehicle(id: ID @eq): Vehicle @find
+}
+
+extend type Mutation {
+    createVehicle(
+        vin: String! @rules(apply: ["required"])
+        plate_number: String! @rules(apply: ["required"])
+        color: String! @rules(apply: ["required"])
+        manufacturer: String! @rules(apply: ["required"])
+        model: String! @rules(apply: ["required"])
+        transmission: String! @rules(apply: ["required"])
+        body_type: String! @rules(apply: ["required"])
+        mileage: Float! @rules(apply: ["required"])
+        year: String! @rules(apply: ["required"])
+        user_id: Int! @rules(apply: ["required"])
+    ): Vehicle! @create
+
+    updateVehicle(
+        id: ID!
+        vin: String!
+        plate_number: String!
+        color: String!
+        manufacturer: String!
+        model: String!
+        transmission: String!
+        body_type: String!
+        mileage: Float!
+        year: String!
+        user_id: Int!
+    ): Vehicle @update
+
+    deleteVehicle(id: ID!): Vehicle @delete
+}
+
+type Vehicle {
+    id: ID!
+    vin: String!
+    plate_number: String!
+    color: String!
+    manufacturer: String!
+    model: String!
+    transmission: String!
+    body_type: String!
+    mileage: Float!
+    year: String!
+    created_at: DateTime!
+    updated_at: DateTime!
+    user: User @hasOne(relation: "owner")
+    maintenances: [Maintenance!]! @hasMany
+}

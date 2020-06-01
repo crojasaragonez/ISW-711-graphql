@@ -1,0 +1,39 @@
+extend type Query {
+    reviews: [Review!]! @paginate(defaultCount: 10)
+    review(id: ID @eq): Review @find
+}
+
+extend type Mutation {
+    createReview(
+      date: DateTime!
+      score: Int! @rules(apply: ["required"])
+      description: String!
+      mechanical_workshop_id: Int!
+      user_id: Int!
+      maintenance_id: Int!
+    ): Review! @create
+
+    updateReview(
+      id: ID!,
+      date: DateTime!
+      score: Int!
+      description: String!
+      mechanical_workshop_id: Int!
+      user_id: Int!
+      maintenance_id: Int!
+    ): Review @update
+
+    deleteReview(id: ID!): Review @delete
+}
+
+type Review {
+    id: ID!
+    date: DateTime!
+    score: Int!
+    description: String!
+    mechanical_workshop: MechanicalWorkshop @hasOne
+    user: User @hasOne
+    maintenance: Maintenance @hasOne
+    created_at: DateTime!
+    updated_at: DateTime!
+}

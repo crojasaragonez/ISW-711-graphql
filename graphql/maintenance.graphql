@@ -1,0 +1,31 @@
+extend type Query {
+    maintenances: [Maintenance!]! @paginate(defaultCount: 10)
+    maintenance(id: ID @eq): Maintenance @find
+}
+
+extend type Mutation {
+    createMaintenance(
+      date: DateTime!
+      vehicle_id: Int! @rules(apply: ["required"])
+      mechanical_workshop_id: Int! @rules(apply: ["required"])
+    ): Maintenance! @create
+
+    updateMaintenance(
+      id: ID!,
+      date: DateTime!
+      vehicle_id: Int! @rules(apply: ["required"])
+      mechanical_workshop_id: Int! @rules(apply: ["required"])
+    ): Maintenance @update
+
+    deleteMaintenance(id: ID!): Maintenance @delete
+}
+
+type Maintenance {
+    id: ID!
+    date: DateTime!
+    vehicle: Vehicle @hasOne
+    maintenance_type: MaintenanceType @hasOne
+    mechanical_workshop: MechanicalWorkshop @hasOne
+    created_at: DateTime!
+    updated_at: DateTime!
+}

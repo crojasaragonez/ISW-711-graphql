@@ -1,0 +1,10 @@
+extend type Query {
+    maintenance_types: [MaintenanceType!]! @paginate(defaultCount: 10)
+    maintenance_type(id: ID @eq): MaintenanceType @find
+}
+
+type MaintenanceType {
+    id: ID!
+    description: String!
+    maintenances: [Maintenance!]! @hasMany
+}

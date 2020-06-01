@@ -1,0 +1,50 @@
+extend type Query {
+    mechanical_workshops: [MechanicalWorkshop!]! @paginate(defaultCount: 10)
+    mechanical_workshop(id: ID @eq): MechanicalWorkshop @find
+}
+
+extend type Mutation {
+    createMechanicalWorkshop(
+        legal_id: String @rules(apply: ["required"])
+        name: String @rules(apply: ["required"])
+        address: String
+        logo: String
+        latitude: Float @rules(apply: ["required"])
+        longitude: Float @rules(apply: ["required"])
+        phone_number: String @rules(apply: ["required"])
+        email: String @rules(apply: ["required"])
+        zip_code: String @rules(apply: ["required"])
+    ): MechanicalWorkshop! @create
+
+    updateMechanicalWorkshop(
+        id: ID!,
+        legal_id: String
+        name: String
+        address: String
+        logo: String
+        latitude: Float
+        longitude: Float
+        phone_number: String
+        email: String
+        zip_code: String
+    ): MechanicalWorkshop @update
+
+    deleteMechanicalWorkshop(id: ID!): MechanicalWorkshop @delete
+}
+
+type MechanicalWorkshop {
+    id: ID!
+    legal_id: String!
+    name: String!
+    address: String!
+    logo: String!
+    latitude: Float!
+    longitude: Float!
+    phone_number: String!
+    email: String!
+    zip_code: String!
+    created_at: DateTime!
+    updated_at: DateTime!
+    maintenances: [Maintenance!]! @hasMany
+    reviews: [Review!]! @hasMany
+}
